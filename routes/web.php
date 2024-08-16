@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -13,6 +14,28 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::resource('/posts', PostController::class);
+
+Route::get('/admin', function() {
+    return Inertia::render('Admin/Home');
+})->middleware(['auth', 'verified'])->name('AdminHomePage');
+
+Route::get('admin/new-post', function() {
+    return Inertia::render('Admin/CreatePost');
+})->middleware(['auth', 'verified'])->name('AdminCreatePost');
+
+Route::get('/admin/posts', function(){
+    // 'posts' => Post::all();
+    return Inertia::render('Admin/AllPosts');
+})->middleware(['auth', 'verified'])->name('AdminPostTable');
+
+Route::get('admin/categories', function() {
+    $user = Auth::user();
+    if ($user->admin === false) {
+        return Inertia::location('/');
+    } else return Inertia::render('Admin/Categories');
+})->middleware(['auth', 'verified'])->name('AdminCategories');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

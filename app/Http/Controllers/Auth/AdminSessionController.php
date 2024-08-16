@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class AuthenticatedSessionController extends Controller
+class AdminSessionController extends Controller
 {
     /**
      * Display the login view.
@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('/', absolute: false));
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
