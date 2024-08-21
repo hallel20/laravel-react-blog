@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Auth;
+use Inertia\Inertia;
 
 class PostController extends Controller
 {
@@ -21,6 +23,7 @@ class PostController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**
@@ -29,6 +32,23 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $image = 'storage/' . $request->file('image')->store('postsImages', 'public');
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required',
+            'image' => 'required',
+        ]);
+
+        Post::create([
+            'user_id' => $request->user_id,
+            'image' => $image,
+            'title' => $request->title,
+            'content' => $request->content,
+            'category_id' => $request->category_id,
+        ]);
+
+        return redirect(route('admin', absolute: false));
     }
 
     /**
@@ -36,7 +56,8 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return Inertia::render('SinglePost');
+    //
     }
 
     /**

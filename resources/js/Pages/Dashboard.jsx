@@ -17,8 +17,24 @@ export default function Dashboard({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            You're logged in!&ThickSpace;
-                            <Link href="/admin/posts">Admin Panel</Link>
+                            You're logged in! <br />
+                            {auth.user.admin == true && (
+                                <Link href={route("admin")}>
+                                    Admin Panel{" "}
+                                    <i className="fa fa-chevron-right"></i>
+                                </Link>
+                            )}
+                            <br />
+                            <Link href={route("home")}>
+                                Check blog posts&nbsp;
+                                <i className="fa fa-chevron-right"></i>
+                            </Link>
+                            <br />
+                            <br />
+                            <Link href="#">
+                                Check my Comments&nbsp;
+                                <i className="fa fa-chevron-right"></i>
+                            </Link>
                         </div>
                     </div>
                 </div>

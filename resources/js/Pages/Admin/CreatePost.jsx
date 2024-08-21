@@ -1,17 +1,24 @@
+import InputError from "@/Components/InputError";
 import Loading from "@/Components/Loading";
 import AdminLayout from "@/Layouts/AdminLayout";
-import { Head } from "@inertiajs/react";
-import { useState } from "react";
+import { Head, useForm } from "@inertiajs/react";
 
-export default function CreatePost({ auth }) {
+export default function CreatePost({ auth, categories }) {
     // const { register, control, handleSubmit } = useForm<PostForm>();
 
-    const [file, setFile] = useState("");
+    const { data, setData, post, processing, progress, reset, errors } =
+        useForm({
+            title: "",
+            category_id: "",
+            image: "",
+            content: "",
+            user_id: auth.user.id,
+        });
 
     return (
         <AdminLayout user={auth.user}>
             <Head title="Create Post"></Head>
-            {/* <Loading /> */}
+            {processing && <Loading />}
             <div className="container">
                 <div className="row justify-content-center align-items-center py-5">
                     <form
@@ -20,6 +27,10 @@ export default function CreatePost({ auth }) {
                         action="/posts"
                         onSubmit={(e) => {
                             e.preventDefault();
+                            // console.log(data);
+                            post(route("posts.store"), {
+                                onSuccess: () => reset(),
+                            });
                         }}
                     >
                         <div className="relative p-3">
@@ -31,21 +42,42 @@ export default function CreatePost({ auth }) {
                                 type="text"
                                 className="form-control my-3"
                                 name="title"
+                                value={data.title}
                                 id="title"
+                                required
+                                onChange={(e) =>
+                                    setData("title", e.target.value)
+                                }
                             />
+                            <InputError
+                                message={errors.title}
+                                className="bg-red-600 rounded-md text-white"
+                            />
+                            {progress && (
+                                <progress value={progress.percentage} max="100">
+                                    {progress.percentage}%
+                                </progress>
+                            )}
                             <p className="text-1xl mt-3">Post Image</p>
                             <br />
+                            {data.image != "" ? (
+                                <img
+                                    src={data.image}
+                                    width="50"
+                                    alt="Your Image"
+                                />
+                            ) : null}
                             <label htmlFor="image" className="post-image block">
                                 <i className="fa-solid fa-camera"></i>
                             </label>
-                            {file ? <img src={file} alt="Your Image" /> : null}
                             <input
                                 type="file"
                                 name="image"
                                 id="image"
-                                onChange={(e) => {
-                                    setFile(e.target.value);
-                                }}
+                                // value={data.image}
+                                onChange={(e) =>
+                                    setData("image", e.target.files[0])
+                                }
                                 hidden
                             />
 
@@ -55,13 +87,20 @@ export default function CreatePost({ auth }) {
                             <select
                                 name="category"
                                 id="category"
-                                className="block form-control"
+                                className="block rounded-sm"
+                                onChange={(e) =>
+                                    setData("category_id", e.target.value)
+                                }
                             >
                                 <option value="">Select a Category</option>
-                                <option value="sports">Sports</option>
-                                <option value="health">Health</option>
-                                <option value="lifestyle">Lifestyle</option>
-                                <option value="technology">Technology</option>
+                                {categories.map((category) => (
+                                    <option
+                                        value={category.id}
+                                        key={category.id}
+                                    >
+                                        {category.name}
+                                    </option>
+                                ))}
                             </select>
                             <label htmlFor="content" className="text-1xl mt-4">
                                 Post Content
@@ -70,8 +109,17 @@ export default function CreatePost({ auth }) {
                                 name="content"
                                 className="form-control my-3"
                                 id="content"
+                                value={data.content}
                                 rows="13"
+                                required
+                                onChange={(e) =>
+                                    setData("content", e.target.value)
+                                }
                             ></textarea>
+                            <InputError
+                                message={errors.message}
+                                className="mt-2"
+                            />
 
                             <div className="form-group text-end">
                                 <button

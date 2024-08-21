@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ URL::asset('vendor/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ URL::asset('vendor/fontawesome/all.min.css') }}" />
 
     <!-- Scripts -->
     @routes
@@ -23,7 +22,7 @@
 <body class="font-sans antialiased">
     @inertia
     <script src="{{ URL::asset('vendor/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ URL::asset('vendor/fontawesome/all.min.js') }}"></script>
+    <script src="{{ URL::asset('vendor/fontawesome/main/all.min.js') }}"></script>
 </body>
 
 </html>

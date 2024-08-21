@@ -1,10 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\Post;
+use App\Models\Category;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -13,29 +16,55 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::resource('/posts', PostController::class);
 
-Route::get('/admin', function() {
-    return Inertia::render('Admin/Home');
-})->middleware(['auth', 'verified'])->name('AdminHomePage');
+Route::resource('/categories', CategoryController::class);
 
-Route::get('admin/new-post', function() {
-    return Inertia::render('Admin/CreatePost');
-})->middleware(['auth', 'verified'])->name('AdminCreatePost');
+Route::get('/blog', function() {
+    return Inertia::render('Blog');
+});
 
-Route::get('/admin/posts', function(){
-    // 'posts' => Post::all();
-    return Inertia::render('Admin/AllPosts');
-})->middleware(['auth', 'verified'])->name('AdminPostTable');
+Route::get('/blog/single-post', function() {
+    return Inertia::render('SinglePost');
+});
 
-Route::get('admin/categories', function() {
-    $user = Auth::user();
-    if ($user->admin === false) {
-        return Inertia::location('/');
-    } else return Inertia::render('Admin/Categories');
-})->middleware(['auth', 'verified'])->name('AdminCategories');
+Route::get('/about-us', function() {
+    return Inertia::render('About');
+});
+
+Route::get('/contact-us', function() {
+    return Inertia::render('Contact');
+});
+
+Route::middleware('auth', 'CheckAdmin')->group(function () {
+    Route::get('/admin', function() {
+        return Inertia::render('Admin/Home', [
+            //
+            'latest_posts' => Post::all()
+        ]);
+    })->name('admin');
+    
+    Route::get('admin/new-post', function() {
+        return Inertia::render('Admin/CreatePost', [
+            'categories' => Category::all()
+        ]);
+    })->name('admin.new-post');
+    
+    Route::get('/admin/posts', function(){
+        // 'posts' => Post::all();
+        return Inertia::render('Admin/AllPosts');
+    })->name('admin.posts');
+    
+    Route::get('admin/categories', function() {
+        return Inertia::render('Admin/Categories', [
+            'categories' => Category::all()
+        ]);
+    })->name('admin.categories');
+    
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
