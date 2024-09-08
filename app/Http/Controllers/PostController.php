@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Auth;
 use Inertia\Inertia;
@@ -15,6 +17,9 @@ class PostController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Blog', [
+            'posts' => Post::with('category', 'user')->get()
+        ]);
     }
 
     /**
@@ -37,7 +42,7 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'category_id' => 'required',
-            'image' => 'required',
+            'image' => 'required|image',
         ]);
 
         Post::create([
@@ -56,7 +61,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return Inertia::render('SinglePost');
+        return Inertia::render('SinglePost', [
+            'post' => $post,
+            'author' => User::get()->where('id', $post->user_id),
+            'comments' => Comment::get()->where('post_id', $post->id)
+        ]);
     //
     }
 
@@ -74,6 +83,24 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
+        if(auth()->user()->id !== $post->user->id){
+            abort(403);
+        }
+        $image = 'storage/' . $request->file('image')->store('postsImages', 'public');
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required',
+            'image' => 'required',
+        ]);
+
+        $post->image = $image;
+        $post->title = $request->input('title');
+        $post->content = $request->input('content');
+        $post->category_id = $request->input('category_id');
+        $post->save();
+
+        return redirect(route('admin.posts', absolute: false));
     }
 
     /**
@@ -82,5 +109,6 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        $post->delete();
     }
 }

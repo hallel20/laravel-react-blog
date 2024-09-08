@@ -9,7 +9,7 @@ export default function AdminNavBar({ user }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
     return (
-        <nav className="bg-violet-950 border-b border-gray-100 z-1 sticky-top">
+        <nav className="bg-violet-950 z-1 sticky-top">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">

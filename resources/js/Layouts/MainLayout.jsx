@@ -26,7 +26,7 @@ export default function MainLayout({ user, children }) {
                             <Link href="/" className="nav-link">
                                 <li className="nav-item">Home</li>
                             </Link>
-                            <Link href="/blog" className="nav-link">
+                            <Link href="/posts" className="nav-link">
                                 <li className="nav-item">Blog</li>
                             </Link>
                             <Link href="/about-us" className="nav-link">
@@ -133,7 +133,7 @@ export default function MainLayout({ user, children }) {
                             <Link href="/" className="nav-link">
                                 <li className="nav-list">Home</li>
                             </Link>
-                            <Link href="/blog" className="nav-link">
+                            <Link href="/posts" className="nav-link">
                                 <li className="nav-list">Blog</li>
                             </Link>
                             <Link href="/about-us" className="nav-link">

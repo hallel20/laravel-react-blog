@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('image');
             $table->foreignId('category_id')->onDelete('protect');
             $table->text('content');
-            $table->foreignId('user_id')->onDelete('cascade');
+            $table->foreignId('user_id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

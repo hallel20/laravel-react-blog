@@ -1,11 +1,21 @@
 import Loading from "@/Components/Loading";
 import AdminLayout from "@/Layouts/AdminLayout";
 import { Head } from "@inertiajs/react";
-import { useState } from "react";
 import EditPost from "./EditPost";
+import PostTableRow from "@/Components/PostTableRow";
+import { useState } from "react";
 
-export default function AllPosts({ auth }) {
-    const [editId, setEditId] = useState("");
+export default function AllPosts({ auth, posts }) {
+    const [notice, setNotice] = useState(false);
+
+    const handleNotice = () => {
+        setNotice(true);
+        setTimeout(() => {
+            setNotice(false);
+        }, 3000);
+    };
+
+    let i = 1;
 
     return (
         <AdminLayout user={auth.user}>
@@ -20,129 +30,32 @@ export default function AllPosts({ auth }) {
                                 <tr>
                                     <th>ID</th>
                                     <th>Post Title</th>
-                                    <th>Comments</th>
                                     <th>Category</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>What is Life?</td>
-                                    <td>
-                                        <i className="fa-regular fa-comments"></i>{" "}
-                                        15
-                                    </td>
-                                    <td>Lifestyle</td>
-                                    <td className="space-x-2">
-                                        <button
-                                            className="btn btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit-post-modal"
-                                            onClick={() => {
-                                                setEditId("1");
-                                                console.log(editId);
-                                            }}
-                                        >
-                                            <i className="fa-solid fa-pencil-square"></i>
-                                            Edit
-                                        </button>
-                                        <button className="btn btn-danger">
-                                            <i className="fa-solid fa-trash-can"></i>
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>What is Life?</td>
-                                    <td>
-                                        <i className="fa-regular fa-comments"></i>{" "}
-                                        15
-                                    </td>
-                                    <td>Lifestyle</td>
-                                    <td className="space-x-2">
-                                        <button
-                                            className="btn btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit-post-modal"
-                                            onClick={() => {
-                                                setEditId("1");
-                                                console.log(editId);
-                                            }}
-                                        >
-                                            <i className="fa-solid fa-pencil-square"></i>
-                                            Edit
-                                        </button>
-                                        <button className="btn btn-danger">
-                                            <i className="fa-solid fa-trash-can"></i>
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>What is Life?</td>
-                                    <td>
-                                        <i className="fa-regular fa-comments"></i>{" "}
-                                        15
-                                    </td>
-                                    <td>Lifestyle</td>
-                                    <td className="space-x-2">
-                                        <button
-                                            className="btn btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit-post-modal"
-                                            onClick={() => {
-                                                setEditId("1");
-                                                console.log(editId);
-                                            }}
-                                        >
-                                            <i className="fa-solid fa-pencil-square"></i>
-                                            Edit
-                                        </button>
-                                        <button className="btn btn-danger">
-                                            <i className="fa-solid fa-trash-can"></i>
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>What is Life?</td>
-                                    <td>
-                                        <i className="fa-regular fa-comments"></i>{" "}
-                                        15
-                                    </td>
-                                    <td>Lifestyle</td>
-                                    <td className="space-x-2">
-                                        <button
-                                            className="btn btn-info"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#edit-post-modal"
-                                            onClick={() => {
-                                                setEditId("1");
-                                                console.log(editId);
-                                            }}
-                                        >
-                                            <i className="fa-solid fa-pencil-square"></i>
-                                            Edit
-                                        </button>
-                                        <button className="btn btn-danger">
-                                            <i className="fa-solid fa-trash-can"></i>
-                                            Delete
-                                        </button>
-                                    </td>
-                                </tr>
+                                {posts.data.map(
+                                    (post, i) => (
+                                        <PostTableRow
+                                            key={post.id}
+                                            id={i + 1}
+                                            post={post}
+                                            handleNotice={handleNotice}
+                                        />
+                                    ),
+                                    i++
+                                )}
                             </tbody>
                         </table>
-                        {/* Edit Post Modal */}
-                        <div className="modal fade" id="edit-post-modal">
-                            <EditPost user={auth.user} />
-                        </div>
                     </div>
                 </div>
             </div>
+            {notice && (
+                <p className="bg-red-600 text-white py-2 px-1 rounded-md right-4 bottom-3 fixed">
+                    Post Successfully Deleted!
+                </p>
+            )}
         </AdminLayout>
     );
 }

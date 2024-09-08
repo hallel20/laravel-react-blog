@@ -15,6 +15,8 @@ class Comment extends Model
     ];
     use HasFactory;
 
+    protected $with = ['user'];
+
     /**
      * Get the post that owns the Comment
      *
@@ -22,7 +24,7 @@ class Comment extends Model
      */
     public function post(): BelongsTo
     {
-        return $this->belongsTo(Post::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(Post::class);
     }
 
     /**
@@ -32,6 +34,6 @@ class Comment extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(User::class);
     }
 }

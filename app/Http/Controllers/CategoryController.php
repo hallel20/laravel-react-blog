@@ -36,6 +36,7 @@ class CategoryController extends Controller
         Category::create([
             'name' => $request->name
         ]);
+        return redirect(route('admin.categories'));
     }
 
     /**
@@ -69,5 +70,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        $category->delete();
+        return redirect(route('admin.categories'));
     }
 }

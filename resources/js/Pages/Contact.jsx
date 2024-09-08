@@ -1,8 +1,8 @@
 import SingleLayout from "@/Layouts/SingleLayout";
 
-export default function Contact() {
+export default function Contact({ auth }) {
     return (
-        <SingleLayout>
+        <SingleLayout user={auth.user}>
             <h2 className="text-4xl font-bold my-4">Contact Us</h2>
             <hr className="text-gray-400" />
             <h3 className="text-2xl text-center mt-4">Get in touch with us</h3>

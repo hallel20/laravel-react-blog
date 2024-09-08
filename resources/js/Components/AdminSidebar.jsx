@@ -17,7 +17,7 @@ export default function AdminSidebar() {
                 )}
             </button>
             {open == true ? (
-                <div className="col-md-3 sidebar fixed bg-violet-950">
+                <div className="col-md-2 sidebar fixed bg-violet-950">
                     <div className="mt-5 mx-2">
                         <h2 className="text-indigo-800">
                             <i className="fa-solid fa-dashboard"></i> Dashboard

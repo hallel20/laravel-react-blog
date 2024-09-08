@@ -3,10 +3,10 @@ import Loading from "@/Components/Loading";
 import { useForm } from "@inertiajs/react";
 
 export default function NewCategory() {
-    const { data, setData, post, processing, reset, errors } = useForm({
+    const { data, setData, post, processing, redirect, errors } = useForm({
         name: "",
     });
-    console.log(errors);
+    // console.log(errors);
 
     return (
         <div className="modal-dialog relative">
@@ -21,9 +21,7 @@ export default function NewCategory() {
                         className="post-form"
                         onSubmit={(e) => {
                             e.preventDefault();
-                            post(route("categories.store"), {
-                                onSuccess: () => reset(),
-                            });
+                            post(route("categories.store"));
                         }}
                     >
                         <div className="relative p-3">

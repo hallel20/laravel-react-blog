@@ -18,6 +18,9 @@ class Post extends Model
         'category_id',
         'user_id'
     ];
+
+    protected $with = ['user'];
+
     use HasFactory;
 
     /**
@@ -27,7 +30,7 @@ class Post extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(User::class);
     }
     
     /**
@@ -37,7 +40,7 @@ class Post extends Model
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(Category::class);
     }
 
     /**

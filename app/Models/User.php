@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'foreign_key', 'local_key');
+        return $this->hasMany(Post::class);
     }
 
     /**
@@ -65,6 +65,6 @@ class User extends Authenticatable
      */
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class, 'foreign_key', 'local_key');
+        return $this->hasMany(Comment::class);
     }
 }

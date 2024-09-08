@@ -1,9 +1,9 @@
 import SingleLayout from "@/Layouts/SingleLayout";
 import { Head } from "@inertiajs/react";
 
-export default function About() {
+export default function About({ auth }) {
     return (
-        <SingleLayout>
+        <SingleLayout user={auth.user}>
             <Head title="About Blogwiz" />
             <h2 className="text-4xl font-bold my-4">About Us</h2>
             <hr className="text-gray-400" />

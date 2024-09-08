@@ -21,6 +21,6 @@ class Category extends Model
      */
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'foreign_key', 'local_key');
+        return $this->hasMany(Post::class);
     }
 }

@@ -29,6 +29,20 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'post_id' => 'required|max:255',
+            'comment' => 'required|string|max:100000'
+        ]);
+
+        $user_id = auth()->id();
+
+        Comment::create([
+            'user_id' => $user_id,
+            'post_id' => $request->post_id,
+            'content' => $request->comment,
+        ]);
+
+        return;
     }
 
     /**

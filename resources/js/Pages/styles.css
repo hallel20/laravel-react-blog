@@ -207,10 +207,6 @@ a {
     background-color: #8d8c8c88;
 }
 
-.relative {
-    position: relative;
-}
-
 .loading-spinner {
     display: flex;
     flex: 1;
@@ -324,6 +320,7 @@ a {
 
 .post-list-card .post-card-image {
     overflow: hidden;
+    flex: 2;
 }
 
 .post-list-card .image-container {
@@ -350,6 +347,10 @@ a {
     object-fit: cover;
     width: 100%;
     min-height: 250px;
+}
+
+.post-list-card .post-card-content {
+    flex: 3;
 }
 
 .post-list-card .post-card-content .metadata {
